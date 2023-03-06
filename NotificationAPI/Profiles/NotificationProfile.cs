@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using NotificationAPI.Data.Dtos;
+using NotificationAPI.Models;
 
 namespace NotificationAPI.Profiles
 {
@@ -6,6 +8,11 @@ namespace NotificationAPI.Profiles
     {
         public NotificationProfile()
         {
+            CreateMap<Notification, ReadNotificationDto>();
+            CreateMap<ReadNotificationDto, Notification>();
+
+            CreateMap<Notification, CreateNotificationDto>();
+            CreateMap<CreateNotificationDto, Notification>();
 
         }
     }

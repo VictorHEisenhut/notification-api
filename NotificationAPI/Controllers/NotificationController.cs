@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NotificationAPI.Data;
 using NotificationAPI.Data.Dtos;
+using NotificationAPI.Models;
+using NotificationAPI.Services;
 
 namespace NotificationAPI.Controllers
 {
@@ -11,6 +13,7 @@ namespace NotificationAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly NotificationContext _context;
+        private NotificationService _service;
 
         public NotificationController(IMapper mapper, NotificationContext context)
         {
@@ -18,6 +21,45 @@ namespace NotificationAPI.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Add a notification to the database
+        /// </summary>
+        /// <param name="notification">Object with the necessary fields for the creation</param>
+        /// <returns>IActionResult</returns>
+        /// <response code="201">If post was successful</response>
+        [HttpPost]
+        public IActionResult AddNotification([FromBody] CreateNotificationDto createDto)
+        {
+            var notification = _mapper.Map<Notification>(createDto);
+            _service.CreateNotification(notification);
+            _service.SaveChanges();
+            return CreatedAtAction(nameof(GetNotificationByID), new { id = notification.ID }, notification);
+        }
         
+
+        [HttpGet("{take}/{skip}")]
+        public IEnumerable<ReadNotificationDto> GetNotifications([FromQuery] int skip = 0, [FromQuery]int take = 50)
+        {
+            return _service.GetNotifications(skip, take);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetNotificationByID(int id)
+        {
+            var notification = _service.GetNotificationByID(id);
+            if (notification == null) return NotFound();
+            return Ok(notification);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteNotification(int id)
+        {
+            var notification = _service.GetNotificationByID(id);
+            if (notification == null) return NotFound();
+            _service.DeleteNotification(id);
+            _service.SaveChanges();
+            return NoContent();
+
+        }
     }
 }
