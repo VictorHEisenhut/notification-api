@@ -24,7 +24,7 @@ namespace NotificationAPI.Controllers
         /// <summary>
         /// Add a notification to the database
         /// </summary>
-        /// <param name="notification">Object with the necessary fields for the creation</param>
+        /// <param name="createDto">Object with the necessary fields for the creation</param>
         /// <returns>IActionResult</returns>
         /// <response code="201">If post was successful</response>
         [HttpPost]
@@ -37,7 +37,7 @@ namespace NotificationAPI.Controllers
         }
         
 
-        [HttpGet("{take}/{skip}")]
+        [HttpGet("{skip}/{take}")]
         public IEnumerable<ReadNotificationDto> GetNotifications([FromQuery] int skip = 0, [FromQuery]int take = 50)
         {
             return _service.GetNotifications(skip, take);
@@ -57,7 +57,6 @@ namespace NotificationAPI.Controllers
             var notification = _service.GetNotificationByID(id);
             if (notification == null) return NotFound();
             _service.DeleteNotification(id);
-            _service.SaveChanges();
             return NoContent();
 
         }

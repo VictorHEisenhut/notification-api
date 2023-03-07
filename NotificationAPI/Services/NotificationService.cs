@@ -18,7 +18,10 @@ namespace NotificationAPI.Services
 
         public void DeleteNotification(int id)
         {
-            _context.Notifications.Remove(_context.Notifications.FirstOrDefault(n => n.ID == id));
+            var notificationExcluida = GetNotificationByID(id);
+            notificationExcluida.Excluido = true;
+            notificationExcluida.DataExclusao = DateTime.Now;
+            //_context.Notifications.Remove(_context.Notifications.FirstOrDefault(n => n.ID == id));
         }
 
         public Notification GetNotificationByID(int id)
@@ -28,7 +31,7 @@ namespace NotificationAPI.Services
 
         public IEnumerable<ReadNotificationDto> GetNotifications(int skip = 0, int take = 50)
         {
-            return _mapper.Map<List<ReadNotificationDto>>(_context.Notifications.Skip(skip).Take(take).ToList());
+            return _mapper.Map<List<ReadNotificationDto>>(_context.Notifications.Skip(skip).Take(take).Where(n => n.Excluido != true).ToList());
         }
 
         public void SaveChanges()

@@ -12,8 +12,10 @@ namespace NotificationAPI.Models
         [Required]
         public string Descricao { get; set; }
         [Required]
-        public DateTime DataProcessamento { get; set; }
+        public DateTime DataProcessamento { get; set; } = DateTime.Now;
         [Required]
         public DateTime DataExclusao { get; set; }
+        public bool Excluido { get; set; } = false;
     }
+
 }
