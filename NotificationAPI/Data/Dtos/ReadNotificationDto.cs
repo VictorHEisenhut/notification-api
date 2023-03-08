@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace NotificationAPI.Data.Dtos
 {
@@ -7,7 +8,9 @@ namespace NotificationAPI.Data.Dtos
         public int ID { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
-        public DateTime DataProcessamento { get; set; } = DateTime.Now;
-        public DateTime DataExclusao { get; set; }
+        
+        public string DataProcessamento { get; set; } = DateTime.UtcNow.ToString(CultureInfo.CreateSpecificCulture("pt-BR"));
+
+        public string DataExclusao { get; set; }
     }
 }

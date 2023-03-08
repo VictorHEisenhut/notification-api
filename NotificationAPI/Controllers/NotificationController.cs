@@ -38,7 +38,7 @@ namespace NotificationAPI.Controllers
         
 
         [HttpGet("{skip}/{take}")]
-        public IEnumerable<ReadNotificationDto> GetNotifications([FromQuery] int skip = 0, [FromQuery]int take = 50)
+        public IEnumerable<ReadNotificationDto> GetNotifications(int skip = 0, int take = 50)
         {
             return _service.GetNotifications(skip, take);
         }
@@ -57,6 +57,7 @@ namespace NotificationAPI.Controllers
             var notification = _service.GetNotificationByID(id);
             if (notification == null) return NotFound();
             _service.DeleteNotification(id);
+            _service.SaveChanges();
             return NoContent();
 
         }

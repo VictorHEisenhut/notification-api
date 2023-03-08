@@ -2,6 +2,7 @@
 using NotificationAPI.Data;
 using NotificationAPI.Data.Dtos;
 using NotificationAPI.Models;
+using System.Globalization;
 
 namespace NotificationAPI.Services
 {
@@ -25,8 +26,7 @@ namespace NotificationAPI.Services
         {
             var notificationExcluida = GetNotificationByID(id);
             notificationExcluida.Excluido = true;
-            notificationExcluida.DataExclusao = DateTime.Now;
-            //_context.Notifications.Remove(_context.Notifications.FirstOrDefault(n => n.ID == id));
+            notificationExcluida.DataExclusao = DateTime.UtcNow.ToString(CultureInfo.CreateSpecificCulture("pt-BR"));
         }
 
         public Notification GetNotificationByID(int id)

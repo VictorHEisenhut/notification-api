@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace NotificationAPI.Models
 {
@@ -7,15 +9,18 @@ namespace NotificationAPI.Models
         [Key]
         [Required]
         public int ID { get; set; }
-        [Required]
+        [Required(ErrorMessage ="A notificação deve possuir um título")]
+        [DisplayName("Título")]
         public string Titulo { get; set; }
-        [Required]
+        [Required(ErrorMessage ="A notificação deve possuir uma descrição")]
+        [DisplayName("Descrição")]
         public string Descricao { get; set; }
-        [Required]
-        public DateTime DataProcessamento { get; set; } = DateTime.Now;
-        [Required]
-        public DateTime DataExclusao { get; set; }
-        public bool Excluido { get; set; } = false;
+        [Required(ErrorMessage ="A notificação deve possuir uma data de processamento")]
+        [DisplayName("Data de processamento")]
+        public string DataProcessamento { get; set; } = DateTime.UtcNow.ToString(CultureInfo.CreateSpecificCulture("pt-BR"));
+        [DisplayName("Data de exclusão")]
+        public string DataExclusao { get; set; }
+        public bool Excluido { get; set; }
     }
 
 }
