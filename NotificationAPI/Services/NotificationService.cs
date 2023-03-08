@@ -10,7 +10,12 @@ namespace NotificationAPI.Services
         private readonly NotificationContext _context;
         private readonly IMapper _mapper;
 
-        
+        public NotificationService(NotificationContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
         public void CreateNotification(Notification notification)
         {
             _context.Notifications.Add(notification);      

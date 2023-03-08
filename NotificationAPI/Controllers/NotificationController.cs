@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NotificationAPI.Data;
 using NotificationAPI.Data.Dtos;
 using NotificationAPI.Models;
+using NotificationAPI.RabbitMqClient;
 using NotificationAPI.Services;
 
 namespace NotificationAPI.Controllers
@@ -14,7 +15,7 @@ namespace NotificationAPI.Controllers
         private readonly IMapper _mapper;
         private INotificationService _service;
 
-        public NotificationController(IMapper mapper, INotificationService service)
+        public NotificationController(IMapper mapper,  INotificationService service)
         {
             _mapper = mapper;
             _service = service;
