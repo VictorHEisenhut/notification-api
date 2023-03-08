@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen(c =>
 
 var connectionString = builder.Configuration.GetConnectionString("NotificationConnection");
 
-builder.Services.AddDbContext<NotificationContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContext<NotificationContext>(opt => opt.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<INotificationService, NotificationService>();
 

@@ -12,13 +12,12 @@ namespace NotificationAPI.Controllers
     public class NotificationController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly NotificationContext _context;
-        private NotificationService _service;
+        private INotificationService _service;
 
-        public NotificationController(IMapper mapper, NotificationContext context)
+        public NotificationController(IMapper mapper, INotificationService service)
         {
             _mapper = mapper;
-            _context = context;
+            _service = service;
         }
 
         /// <summary>
