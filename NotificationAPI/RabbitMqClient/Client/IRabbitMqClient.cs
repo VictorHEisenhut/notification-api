@@ -1,6 +1,6 @@
 ﻿using NotificationAPI.Data.Dtos;
 
-namespace NotificationAPI.RabbitMqClient
+namespace NotificationAPI.RabbitMqClient.Client
 {
     public interface IRabbitMqClient
     {

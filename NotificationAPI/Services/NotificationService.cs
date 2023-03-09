@@ -2,6 +2,7 @@
 using NotificationAPI.Data;
 using NotificationAPI.Data.Dtos;
 using NotificationAPI.Models;
+using NotificationAPI.RabbitMqClient.Client;
 using System.Globalization;
 
 namespace NotificationAPI.Services
@@ -10,16 +11,26 @@ namespace NotificationAPI.Services
     {
         private readonly NotificationContext _context;
         private readonly IMapper _mapper;
+        private readonly IRabbitMqClient _rabbitMqClient;
 
-        public NotificationService(NotificationContext context, IMapper mapper)
+        public NotificationService(NotificationContext context, IMapper mapper, IRabbitMqClient rabbitMqClient)
         {
             _context = context;
             _mapper = mapper;
+            _rabbitMqClient = rabbitMqClient;
         }
 
         public void CreateNotification(Notification notification)
         {
-            _context.Notifications.Add(notification);      
+            _context.Notifications.Add(notification);
+        }
+
+        public void CreateNotificationForRMq(Notification notification)
+        {
+            var notificationDto = _mapper.Map<ReadNotificationDto>(notification);
+            _rabbitMqClient.PublishNotification(notificationDto);
+
+            //_context.Notifications.Add(notification);      
         }
 
         public void DeleteNotification(int id)

@@ -9,6 +9,7 @@ namespace NotificationAPI.Services
 
         IEnumerable<ReadNotificationDto> GetNotifications(int skip = 0, int take = 50);
         Notification GetNotificationByID(int id);
+        void CreateNotificationForRMq(Notification notification);
         void CreateNotification(Notification notification);
         void DeleteNotification(int id);
     }

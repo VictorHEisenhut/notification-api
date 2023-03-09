@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NotificationAPI.Data;
+using NotificationAPI.EventProcessor;
+using NotificationAPI.RabbitMqClient.Client;
+using NotificationAPI.RabbitMqClient.Consumers;
 using NotificationAPI.Services;
 using System.Reflection;
 
@@ -24,6 +27,12 @@ var connectionString = builder.Configuration.GetConnectionString("NotificationCo
 builder.Services.AddDbContext<NotificationContext>(opt => opt.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<INotificationService, NotificationService>();
+
+builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
+
+builder.Services.AddHostedService<RabbitMqSubscriber>();
+
+builder.Services.AddSingleton<IProcessNotification, ProcessNotification>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

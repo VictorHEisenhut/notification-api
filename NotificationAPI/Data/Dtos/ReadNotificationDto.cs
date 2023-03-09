@@ -11,6 +11,6 @@ namespace NotificationAPI.Data.Dtos
         
         public string DataProcessamento { get; set; } = DateTime.UtcNow.ToString(CultureInfo.CreateSpecificCulture("pt-BR"));
 
-        public string DataExclusao { get; set; }
+        public string? DataExclusao { get; set; }
     }
 }

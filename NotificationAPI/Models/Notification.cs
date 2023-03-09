@@ -19,7 +19,7 @@ namespace NotificationAPI.Models
         [DisplayName("Data de processamento")]
         public string DataProcessamento { get; set; } = DateTime.UtcNow.ToString(CultureInfo.CreateSpecificCulture("pt-BR"));
         [DisplayName("Data de exclusão")]
-        public string DataExclusao { get; set; }
+        public string? DataExclusao { get; set; }
         public bool Excluido { get; set; }
     }
 

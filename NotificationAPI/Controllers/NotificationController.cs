@@ -31,9 +31,8 @@ namespace NotificationAPI.Controllers
         public IActionResult AddNotification([FromBody] CreateNotificationDto createDto)
         {
             var notification = _mapper.Map<Notification>(createDto);
-            _service.CreateNotification(notification);
-            _service.SaveChanges();
-            return CreatedAtAction(nameof(GetNotificationByID), new { id = notification.ID }, notification);
+            _service.CreateNotificationForRMq(notification);
+            return Ok(notification);
         }
         
 

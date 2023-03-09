@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NotificationAPI.Data;
 
@@ -10,9 +11,11 @@ using NotificationAPI.Data;
 namespace NotificationAPI.Migrations
 {
     [DbContext(typeof(NotificationContext))]
-    partial class NotificationContextModelSnapshot : ModelSnapshot
+    [Migration("20230309183736_Data exclusão anulável")]
+    partial class Dataexclusãoanulável
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

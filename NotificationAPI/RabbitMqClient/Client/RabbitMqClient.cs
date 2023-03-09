@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Channels;
 
-namespace NotificationAPI.RabbitMqClient
+namespace NotificationAPI.RabbitMqClient.Client
 {
     public class RabbitMqClient : IRabbitMqClient
     {
@@ -19,7 +19,7 @@ namespace NotificationAPI.RabbitMqClient
             _connection = new ConnectionFactory()
             {
                 HostName = _configuration["RabbitMqHost"],
-                Port = Int32.Parse(_configuration["RabbitMqPort"])
+                //Port = int.Parse(_configuration["RabbitMqPort"])
             }.CreateConnection();
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
