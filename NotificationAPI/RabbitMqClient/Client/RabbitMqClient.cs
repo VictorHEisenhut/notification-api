@@ -26,6 +26,17 @@ namespace NotificationAPI.RabbitMqClient.Client
             _configuration = configuration;
         }
 
+        public void DeleteNotification(ReadNotificationDto notificationDto)
+        {
+            string msg = JsonSerializer.Serialize(notificationDto);
+            byte[] body = Encoding.UTF8.GetBytes(msg);
+
+            _channel.BasicPublish(exchange: "trigger",
+                routingKey: "",
+                basicProperties: null,
+                body: body);
+        }
+
         public void PublishNotification(ReadNotificationDto notificationDto)
         {
             string msg = JsonSerializer.Serialize(notificationDto);

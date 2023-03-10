@@ -29,15 +29,25 @@ namespace NotificationAPI.Services
         {
             var notificationDto = _mapper.Map<ReadNotificationDto>(notification);
             _rabbitMqClient.PublishNotification(notificationDto);
-
-            //_context.Notifications.Add(notification);      
         }
 
-        public void DeleteNotification(int id)
+        public void DeleteNotification(Notification notification)
+        {
+            var excluido = GetNotificationByID(notification.ID);
+            excluido.Excluido = true;
+            excluido.DataExclusao = DateTime.UtcNow.ToString(CultureInfo.CreateSpecificCulture("pt-BR"));
+        }
+
+        public void DeleteNotificationForRMq(int id)
         {
             var notificationExcluida = GetNotificationByID(id);
-            notificationExcluida.Excluido = true;
-            notificationExcluida.DataExclusao = DateTime.UtcNow.ToString(CultureInfo.CreateSpecificCulture("pt-BR"));
+            var notificationDto = _mapper.Map<ReadNotificationDto>(notificationExcluida);
+            _rabbitMqClient.DeleteNotification(notificationDto);
+        }
+
+        public bool Existe(Notification notification)
+        {
+            return _context.Notifications.Any(n => n.ID == notification.ID);
         }
 
         public Notification GetNotificationByID(int id)

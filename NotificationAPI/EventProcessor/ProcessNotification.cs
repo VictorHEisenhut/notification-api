@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using NotificationAPI.Data;
 using NotificationAPI.Data.Dtos;
 using NotificationAPI.Models;
 using NotificationAPI.Services;
+using System.Globalization;
 using System.Text.Json;
 
 namespace NotificationAPI.EventProcessor
@@ -17,23 +19,29 @@ namespace NotificationAPI.EventProcessor
             _scopeFactory = scopeFactory;
         }
 
+
         public void Processa(string msg)
         {
             using var scope = _scopeFactory.CreateScope();
 
-           var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+            var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
 
             var notificationDto = JsonSerializer.Deserialize<ReadNotificationDto>(msg);
 
             var notification = _mapper.Map<Notification>(notificationDto);
 
-            if (notification != null)
+            if (!notificationService.Existe(notification))
             {
                 notificationService.CreateNotification(notification);
                 notificationService.SaveChanges();
             }
-
+            else
+            {
+                notificationService.DeleteNotification(notification);
+                notificationService.SaveChanges();
+            }
 
         }
+        
     }
 }

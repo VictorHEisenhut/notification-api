@@ -1,4 +1,6 @@
-﻿namespace NotificationAPI.EventProcessor
+﻿using NotificationAPI.Models;
+
+namespace NotificationAPI.EventProcessor
 {
     public interface IProcessNotification
     {

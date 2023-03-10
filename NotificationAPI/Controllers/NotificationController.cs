@@ -21,20 +21,15 @@ namespace NotificationAPI.Controllers
             _service = service;
         }
 
-        /// <summary>
-        /// Add a notification to the database
-        /// </summary>
-        /// <param name="createDto">Object with the necessary fields for the creation</param>
-        /// <returns>IActionResult</returns>
-        /// <response code="201">If post was successful</response>
+        
         [HttpPost]
         public IActionResult AddNotification([FromBody] CreateNotificationDto createDto)
         {
             var notification = _mapper.Map<Notification>(createDto);
             _service.CreateNotificationForRMq(notification);
-            return Ok(notification);
+            var notificationDto = _mapper.Map<ReadNotificationDto>(notification);
+            return Ok(notificationDto);
         }
-        
 
         [HttpGet("{skip}/{take}")]
         public IEnumerable<ReadNotificationDto> GetNotifications(int skip = 0, int take = 50)
@@ -55,10 +50,9 @@ namespace NotificationAPI.Controllers
         {
             var notification = _service.GetNotificationByID(id);
             if (notification == null) return NotFound();
-            _service.DeleteNotification(id);
-            _service.SaveChanges();
+            _service.DeleteNotificationForRMq(id);
+           
             return NoContent();
-
         }
     }
 }
