@@ -20,6 +20,7 @@ namespace NotificationAPI.RabbitMqClient.Consumers
             _connection = new ConnectionFactory() 
             { 
                 HostName = _configuration["RabbitMqHost"],
+                //Port = Int32.Parse(_configuration["RabbitMqPort"])
             }.CreateConnection();
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);

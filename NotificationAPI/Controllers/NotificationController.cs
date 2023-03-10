@@ -22,12 +22,11 @@ namespace NotificationAPI.Controllers
         }
 
         /// <summary>
-        /// Add a notification to the database
+        /// Adds a notification to the database
         /// </summary>
         /// <param name="createDto">Object with necessary fields for creation</param>
         /// <returns>IActionResult</returns>
         /// <response code="200">If successful</response>
-
         [HttpPost]
         public IActionResult AddNotification([FromBody] CreateNotificationDto createDto)
         {

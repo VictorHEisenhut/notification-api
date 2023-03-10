@@ -6,7 +6,7 @@
     <members>
         <member name="M:NotificationAPI.Controllers.NotificationController.AddNotification(NotificationAPI.Data.Dtos.CreateNotificationDto)">
             <summary>
-            Add a notification to the database
+            Adds a notification to the database
             </summary>
             <param name="createDto">Object with necessary fields for creation</param>
             <returns>IActionResult</returns>

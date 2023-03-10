@@ -10,5 +10,6 @@ WORKDIR /app
 COPY --from=build /app/out . 
 
 EXPOSE 80
+EXPOSE 443
 
 ENTRYPOINT [ "dotnet", "NotificationAPI.dll" ]
