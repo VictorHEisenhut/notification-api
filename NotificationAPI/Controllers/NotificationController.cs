@@ -21,7 +21,13 @@ namespace NotificationAPI.Controllers
             _service = service;
         }
 
-        
+        /// <summary>
+        /// Add a notification to the database
+        /// </summary>
+        /// <param name="createDto">Object with necessary fields for creation</param>
+        /// <returns>IActionResult</returns>
+        /// <response code="200">If successful</response>
+
         [HttpPost]
         public IActionResult AddNotification([FromBody] CreateNotificationDto createDto)
         {
@@ -31,12 +37,25 @@ namespace NotificationAPI.Controllers
             return Ok(notificationDto);
         }
 
+        /// <summary>
+        /// Gets all notifications from database
+        /// </summary>
+        /// <param name="skip">Skips a defined amount of notifications</param>
+        /// <param name="take">Takes a defined amount of notifications</param>
+        /// <returns>IEnumerable</returns>
+        /// <response code="200">If successful</response>
         [HttpGet("{skip}/{take}")]
         public IEnumerable<ReadNotificationDto> GetNotifications(int skip = 0, int take = 50)
         {
             return _service.GetNotifications(skip, take);
         }
 
+        /// <summary>
+        /// Gets a notification according to it's ID
+        /// </summary>
+        /// <param name="id">Unique property that represents each notification</param>
+        /// <returns>IActionResult</returns>
+        /// <response code="200">If successful</response>
         [HttpGet("{id}")]
         public IActionResult GetNotificationByID(int id)
         {
@@ -45,6 +64,12 @@ namespace NotificationAPI.Controllers
             return Ok(notification);
         }
 
+        /// <summary>
+        /// Deletes a notification 
+        /// </summary>
+        /// <param name="id">Unique property that represents each notification</param>
+        /// <returns>IActionResult</returns>
+        /// <response code="204">If successful</response>
         [HttpDelete("{id}")]
         public IActionResult DeleteNotification(int id)
         {
