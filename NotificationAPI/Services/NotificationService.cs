@@ -57,7 +57,7 @@ namespace NotificationAPI.Services
 
         public IEnumerable<ReadNotificationDto> GetNotifications(int skip = 0, int take = 50)
         {
-            return _mapper.Map<List<ReadNotificationDto>>(_context.Notifications.Skip(skip).Take(take).Where(n => n.Excluido != true).ToList());
+            return _mapper.Map<List<ReadNotificationDto>>(_context.Notifications.Skip(skip).Take(take).Where(n => !n.Excluido).ToList());
         }
 
         public void SaveChanges()
