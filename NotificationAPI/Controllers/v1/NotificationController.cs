@@ -6,16 +6,17 @@ using NotificationAPI.Models;
 using NotificationAPI.RabbitMqClient;
 using NotificationAPI.Services;
 
-namespace NotificationAPI.Controllers
+namespace NotificationAPI.Controllers.v1
 {
     [ApiController]
-    [Route("[controller]")]
-    public class NotificationController : ControllerBase
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
+    public class NotificationControllerV1 : ControllerBase
     {
         private readonly IMapper _mapper;
         private INotificationService _service;
 
-        public NotificationController(IMapper mapper,  INotificationService service)
+        public NotificationControllerV1(IMapper mapper, INotificationService service)
         {
             _mapper = mapper;
             _service = service;
@@ -75,7 +76,7 @@ namespace NotificationAPI.Controllers
             var notification = _service.GetNotificationByID(id);
             if (notification == null) return NotFound();
             _service.DeleteNotificationForRMq(id);
-           
+
             return NoContent();
         }
     }

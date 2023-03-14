@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using NotificationAPI.Controllers.v1;
 using NotificationAPI.Data;
 using NotificationAPI.EventProcessor;
 using NotificationAPI.RabbitMqClient.Client;
@@ -16,11 +19,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "NotificationAPI", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "NotificationAPI v1", Version = "v1.0" });
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+    c.CustomSchemaIds(x => x.FullName);
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
+
+builder.Services.AddApiVersioning(options =>
+  {
+      options.ReportApiVersions = true;
+      options.Conventions.Controller<NotificationControllerV1>().HasApiVersion(new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0));
+  }
+);
 
 var connectionString = builder.Configuration.GetConnectionString("NotificationConnection");
 
@@ -42,7 +54,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint($"/swagger/v1/swagger.json", "v1.0");
+    });
 }
 
 app.UseHttpsRedirection();
