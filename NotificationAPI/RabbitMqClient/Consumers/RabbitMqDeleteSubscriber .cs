@@ -39,7 +39,7 @@ namespace NotificationAPI.RabbitMqClient.Consumers
                 var body = ea.Body;
                 var msg = Encoding.UTF8.GetString(body.ToArray());
                 Console.WriteLine("Notificação deletada");
-                _processNotification.Processa(msg);
+                _processNotification.Deleta(msg);
             };
             _channel.BasicConsume(queue: _nomeDaFila, autoAck: true, consumer: consumer);
             return Task.CompletedTask;
