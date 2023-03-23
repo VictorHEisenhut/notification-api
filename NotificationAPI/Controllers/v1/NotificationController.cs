@@ -11,12 +11,12 @@ namespace NotificationAPI.Controllers.v1
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class NotificationControllerV1 : ControllerBase
+    public class NotificationController : ControllerBase
     {
         private readonly IMapper _mapper;
         private INotificationService _service;
 
-        public NotificationControllerV1(IMapper mapper, INotificationService service)
+        public NotificationController(IMapper mapper, INotificationService service)
         {
             _mapper = mapper;
             _service = service;
@@ -40,14 +40,14 @@ namespace NotificationAPI.Controllers.v1
         /// <summary>
         /// Gets all notifications from database
         /// </summary>
-        /// <param name="skip">Skips a defined amount of notifications</param>
-        /// <param name="take">Takes a defined amount of notifications</param>
+        /// <param name="pagina">Skips a defined amount of pages</param>
+        /// <param name="qtdPorPagina">Takes the notification from the defined page</param>
         /// <returns>IEnumerable</returns>
         /// <response code="200">If successful</response>
-        [HttpGet("{skip}/{take}")]
-        public IEnumerable<ReadNotificationDto> GetNotifications(int skip = 0, int take = 50)
+        [HttpGet("{pagina}/{qtdPorPagina}")]
+        public IEnumerable<ReadNotificationDto> GetNotifications(int pagina = 0, int qtdPorPagina = 50)
         {
-            return _service.GetNotifications(skip, take);
+            return _service.GetNotifications(pagina, qtdPorPagina);
         }
 
         /// <summary>

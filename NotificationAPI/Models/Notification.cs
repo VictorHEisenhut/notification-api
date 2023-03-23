@@ -10,12 +10,12 @@ namespace NotificationAPI.Models
         [Required]
         public int ID { get; set; }
         [Required(ErrorMessage ="A notificação deve possuir um título")]
-        [Range(3, 40)]
+        [StringLength(70, ErrorMessage = "Título deve conter de 3 a 70 caracteres"), MinLength(3)]
         [DisplayName("Título")]
         public string Titulo { get; set; }
         [Required(ErrorMessage ="A notificação deve possuir uma descrição")]
         [DisplayName("Descrição")]
-        [Range(3, 300)]
+        [StringLength(200, ErrorMessage = "Descrição deve conter de 3 a 200 caracteres"), MinLength(3)]
         public string Descricao { get; set; }
         [Required(ErrorMessage ="A notificação deve possuir uma data de processamento")]
         [DisplayName("Data de processamento")]

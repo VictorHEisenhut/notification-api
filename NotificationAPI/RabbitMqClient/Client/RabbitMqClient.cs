@@ -19,10 +19,11 @@ namespace NotificationAPI.RabbitMqClient.Client
             _connection = new ConnectionFactory()
             {
                 HostName = _configuration["RabbitMqHost"],
+                UserName = _configuration["RabbitMqUserName"],
+                Password = _configuration["RabbitMqPassword"]
                 //Port = int.Parse(_configuration["RabbitMqPort"])
             }.CreateConnection();
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
             _configuration = configuration;
         }
 
@@ -31,10 +32,14 @@ namespace NotificationAPI.RabbitMqClient.Client
             string msg = JsonSerializer.Serialize(notificationDto);
             byte[] body = Encoding.UTF8.GetBytes(msg);
 
-            _channel.BasicPublish(exchange: "trigger",
-                routingKey: "",
-                basicProperties: null,
+            var properties = _channel.CreateBasicProperties();
+            properties.Persistent = true;
+
+            _channel.BasicPublish(exchange: "",
+                routingKey: "delete_notification",
+                basicProperties: properties,
                 body: body);
+            Console.WriteLine("Requisição enviada");
         }
 
         public void PublishNotification(ReadNotificationDto notificationDto)
@@ -42,10 +47,14 @@ namespace NotificationAPI.RabbitMqClient.Client
             string msg = JsonSerializer.Serialize(notificationDto);
             byte[] body = Encoding.UTF8.GetBytes(msg);
 
-            _channel.BasicPublish(exchange: "trigger",
-                routingKey: "",
-                basicProperties: null,
+            var properties = _channel.CreateBasicProperties();
+            properties.Persistent = true; 
+
+            _channel.BasicPublish(exchange: "",
+                routingKey: "add_notification",
+                basicProperties: properties,
                 body: body);
+            Console.WriteLine("Notificação publicada");
 
         }
     }

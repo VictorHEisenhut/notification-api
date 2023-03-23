@@ -30,7 +30,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddApiVersioning(options =>
   {
       options.ReportApiVersions = true;
-      options.Conventions.Controller<NotificationControllerV1>().HasApiVersion(new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0));
+      options.Conventions.Controller<NotificationController>().HasApiVersion(new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0));
   }
 );
 
@@ -43,6 +43,8 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
 
 builder.Services.AddHostedService<RabbitMqSubscriber>();
+
+builder.Services.AddHostedService<RabbitMqDeleteSubscriber>();
 
 builder.Services.AddSingleton<IProcessNotification, ProcessNotification>();
 

@@ -7,7 +7,7 @@ namespace NotificationAPI.Services
     {
         void SaveChanges();
 
-        IEnumerable<ReadNotificationDto> GetNotifications(int skip = 0, int take = 50);
+        IEnumerable<ReadNotificationDto> GetNotifications(int pagina = 0, int qtdPorPagina = 50);
         bool Existe(Notification notification);
         Notification GetNotificationByID(int id);
         void CreateNotificationForRMq(Notification notification);

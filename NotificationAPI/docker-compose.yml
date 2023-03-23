@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    networks: 
+      - notification-bridge
+    volumes: 
+      - db-data:/var/lib/sqlserver/data
+      
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-service
+    networks:
+      - notification-bridge
+
+  notification-api:
+    image: vhenriquee/notificationapi:2.4
+    container_name: notification-api
+    networks:
+      - notification-bridge
+    ports: 
+      - 8080:80
+    depends_on:
+      - rabbitmq
+      - sqlserver
+
+volumes:
+  db-data:
+
+networks:
+  notification-bridge:
+    driver: bridge

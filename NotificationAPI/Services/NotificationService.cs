@@ -55,9 +55,9 @@ namespace NotificationAPI.Services
             return _context.Notifications.FirstOrDefault(n => n.ID == id);
         }
 
-        public IEnumerable<ReadNotificationDto> GetNotifications(int skip = 0, int take = 50)
+        public IEnumerable<ReadNotificationDto> GetNotifications(int pagina = 0, int qtdPorPagina = 50)
         {
-            return _mapper.Map<List<ReadNotificationDto>>(_context.Notifications.Skip(skip).Take(take).Where(n => !n.Excluido).ToList());
+            return _mapper.Map<List<ReadNotificationDto>>(_context.Notifications.Skip(pagina * qtdPorPagina).Take(qtdPorPagina).Where(n => !n.Excluido).ToList());
         }
 
         public void SaveChanges()

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NotificationAPI.RabbitMqClient.Consumers
 {
-    public class RabbitMqSubscriber : BackgroundService
+    public class RabbitMqDeleteSubscriber : BackgroundService
     {
         private readonly IConfiguration _configuration;
         private readonly string _nomeDaFila;
@@ -14,18 +14,18 @@ namespace NotificationAPI.RabbitMqClient.Consumers
         private IProcessNotification _processNotification;
 
 
-        public RabbitMqSubscriber(IConfiguration configuration, IProcessNotification processNotification)
+        public RabbitMqDeleteSubscriber(IConfiguration configuration, IProcessNotification processNotification)
         {
             _configuration = configuration;
-            _connection = new ConnectionFactory()
-            {
+            _connection = new ConnectionFactory() 
+            { 
                 HostName = _configuration["RabbitMqHost"],
                 UserName = _configuration["RabbitMqUserName"],
                 Password = _configuration["RabbitMqPassword"]
                 //Port = Int32.Parse(_configuration["RabbitMqPort"])
             }.CreateConnection();
             _channel = _connection.CreateModel();
-            _nomeDaFila = _channel.QueueDeclare(queue: "add_notification", durable: true, exclusive: false, autoDelete: false);
+            _nomeDaFila = _channel.QueueDeclare(queue: "delete_notification", durable: true, exclusive: false, autoDelete: false);
             _processNotification = processNotification;
         }
 
@@ -38,13 +38,13 @@ namespace NotificationAPI.RabbitMqClient.Consumers
             {
                 var body = ea.Body;
                 var msg = Encoding.UTF8.GetString(body.ToArray());
-                Console.WriteLine("Notificação criada");
+                Console.WriteLine("Notificação deletada");
                 _processNotification.Processa(msg);
             };
             _channel.BasicConsume(queue: _nomeDaFila, autoAck: true, consumer: consumer);
             return Task.CompletedTask;
-
-
+           
+            
         }
     }
 }

@@ -4,7 +4,7 @@
         <name>NotificationAPI</name>
     </assembly>
     <members>
-        <member name="M:NotificationAPI.Controllers.v1.NotificationControllerV1.AddNotification(NotificationAPI.Data.Dtos.CreateNotificationDto)">
+        <member name="M:NotificationAPI.Controllers.v1.NotificationController.AddNotification(NotificationAPI.Data.Dtos.CreateNotificationDto)">
             <summary>
             Adds a notification to the database
             </summary>
@@ -12,16 +12,16 @@
             <returns>IActionResult</returns>
             <response code="200">If successful</response>
         </member>
-        <member name="M:NotificationAPI.Controllers.v1.NotificationControllerV1.GetNotifications(System.Int32,System.Int32)">
+        <member name="M:NotificationAPI.Controllers.v1.NotificationController.GetNotifications(System.Int32,System.Int32)">
             <summary>
             Gets all notifications from database
             </summary>
-            <param name="skip">Skips a defined amount of notifications</param>
-            <param name="take">Takes a defined amount of notifications</param>
+            <param name="pagina">Skips a defined amount of pages</param>
+            <param name="qtdPorPagina">Takes the notification from the defined page</param>
             <returns>IEnumerable</returns>
             <response code="200">If successful</response>
         </member>
-        <member name="M:NotificationAPI.Controllers.v1.NotificationControllerV1.GetNotificationByID(System.Int32)">
+        <member name="M:NotificationAPI.Controllers.v1.NotificationController.GetNotificationByID(System.Int32)">
             <summary>
             Gets a notification according to it's ID
             </summary>
@@ -29,7 +29,7 @@
             <returns>IActionResult</returns>
             <response code="200">If successful</response>
         </member>
-        <member name="M:NotificationAPI.Controllers.v1.NotificationControllerV1.DeleteNotification(System.Int32)">
+        <member name="M:NotificationAPI.Controllers.v1.NotificationController.DeleteNotification(System.Int32)">
             <summary>
             Deletes a notification 
             </summary>
